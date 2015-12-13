@@ -79,15 +79,15 @@ public:
 	INIPropertyParser() {};
 	virtual ~INIPropertyParser() {};
 
-	void setSource(const std::string & source);
+	virtual void setSource(const std::string & source);
 
-	const std::string & getSource();
+	virtual const std::string & getSource();
 
-	void parse();
+	virtual void parse();
 
-	const std::vector<std::string> & getPropertyBlockNames();
+	virtual const std::vector<std::string> & getPropertyBlockNames();
 
-	const std::map<std::string, std::string> & getPropertyBlock(
+	virtual const std::map<std::string, std::string> & getPropertyBlock(
 			const std::string & name);
 
 };
