@@ -33,11 +33,11 @@
 #----------------------------------------------------------------------------*/
 
 #Set the package name
-SET(PACKAGE_NAME "fireParsers")
+SET(PACKAGE_NAME "FireParsers")
 #Set the description
 SET(PACKAGE_DESCRIPTION "Fire Parser Library")
 #Set the library name
-SET(LIBRARY_NAME "fireParsers")
+SET(LIBRARY_NAME "FireParsers")
 
 #Collect all header filenames in this project 
 #and glob them in HEADERS
