@@ -32,6 +32,7 @@
 #ifndef PARSERS_ILOCALPARSER_H_
 #define PARSERS_ILOCALPARSER_H_
 
+#include <memory>
 #include "IParser.h"
 
 namespace fire {
@@ -43,9 +44,15 @@ namespace fire {
  * isLocal() always returns true.
  * isParallel() always returns false.
  *
- * Implementations should set isFile in their setSource(std::string) and
- * setSource(std::istream) to true and false respectively.
+ * Implementations should set isFile in their setSource(std::string) if their
+ * source is a file. Subclasses must always be sure that they implement parse()
+ * and setSource() because default implementations are not provided.
+ *
+ * The getData() operation always returns a shared_ptr instead of a raw type
+ * (copy) or raw pointer to efficiently share the dynamically allocated data.
+ *
  */
+template <typename T>
 class ILocalParser: public virtual IParser {
 
 protected:
@@ -65,6 +72,13 @@ public:
 	virtual bool isLocal() {return true;};
 
 	virtual bool isParallel() {return false;};
+
+	/**
+	 * This operation returns a shared pointer to an instance of type T.
+	 * @return a shared pointer holding an instance of type T that was parsed
+	 * from the file.
+	 */
+	virtual std::shared_ptr<T> getData() = 0;
 
 };
 
