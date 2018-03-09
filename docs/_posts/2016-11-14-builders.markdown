@@ -1,0 +1,92 @@
+---
+layout: post
+title: Builders
+permalink: /design/builders
+category: design
+---
+
+Objects in Fire should be constructed using developer-provided specializations of the build&lt;T&gt;() template function, which is described in build.h.
+
+Object construction can be problematic in software projects if the method of initializing those objects changes. For example, it may be sufficient to initialize
+an object with the following:
+
+```cpp
+MyCustomClass object; // Nullary constructor
+MyCustomClass copiedObject(object); // Copy constructor
+MyCustomClass otherObject(5); // Special constructor that does something else.
+```
+
+What happens if the design of *MyCustomClass* changes so that a special *initialize* operation must be called after the constructor? Or what if data members need
+to be filled? Then initialization would look like this:
+
+```cpp
+MyCustomClass object(5); // Pass a special argument
+object.setX(x); // Set some data
+object.setY(y);
+object.init(); // Initialize the object for some long-running work after construction
+```
+
+This quickly becomes troublesome if *MyCustomClass* is used in many places because it requires a lot of code and could lead to bugs. Thus, Fire uses a templated "builder" function to construct objects like so
+
+```cpp
+auto object = build<MyCustomClass>(); // Default construction
+auto otherObject = build<MyCustomClass>(5,x,y); // Initialized with data
+```
+
+where the build&lt;T&gt;() template is specialized by the developer specifically for constructing MyCustomClass in appropriate ways. This eliminates the details of exactly how MyCustomClass is constructed and 
+additionally avoids the "pollution" of duplicating the code to construct MyCustomClass every it is used. Different versions of build&lt;T&gt;() exist, including versions for instantiation by lists and other input arguments; both versions in the code sample above are valid.
+
+The cleanest way to provide specializations of build&lt;T&gt;() for any class is after the class in the header file where the class is defined.
+
+The build&lt;T&gt;() template function is currently defined in build.h in the parsers module, but may move in the future.
+
+## Example
+
+The Reaction.h file in the astrophysics module has a good examples of providing a specialization of build&lt;T&gt;(). The only catch is that build&lt;T&gt;() specializations must be created in the *fire* namespace, not a subspace.
+
+SpeciesLocalParser.h shows a good example of "implicit instantiation" for
+the build&lt;T&gt;() function for the Species class. In this case, the compiler
+automatically creates the specialized version of build&lt;T&gt;() based on type
+inference and the second version of build&lt;T&gt;() in build.h.
+
+BuildTest.cpp also provids relevant examples since it is the test case for build&lt;T&gt;(). It also includes a test for building containers.
+
+## build&lt;T&gt;() vs parse&lt;T&gt;()
+
+In some cases the build&lt;T&gt;() can be grammatically cumbersome. Consider
+the following example: 
+
+```cpp
+auto parser = build<LocalParser<vector<T>>, const string &>(fileName);
+parser.parse();
+auto myData = speciesParser.getData();
+```
+
+The problem with this code is that it is essentially the same thing as what
+build&lt;T&gt;() is meant to prevent - bloat that will be copied everywhere!
+The worst part of the bloat is the template arguments, which are most likely
+constant across many different parsers. It is better to use parse&lt;T&gt;()
+in cases like this, which looks like the following:
+
+```cpp
+auto myData = parse<T>(filename);
+```
+
+parse&lt;T&gt;() is specifically designed for returning vectors of type T from local files. It isn't a substitute for complex parsers, but it saves a lot of effort for regular, block-structured data.
+
+The two major differences between these two methods are
+
+* Code cleanliness
+* parse&lt;T&gt;() automatically parses the file, whereas build&lt;T&gt;()
+probably does and should not.
+
+The second point is really important. Should your build&lt;T&gt;() parse as well as build? That's a design issue that we'll defer for now, but keep in mind that if your build&lt;T&gt;() routine parses, then your clients should
+not use parse&lt;T&gt;() because it calls build&lt;T&gt;() too, which means
+your data will be loaded twice into the same array! This is the reason that default build&lt;T&gt;() implementations for local parsers in Fire **never** call parser.parse().
+
+## Other special versions of build&lt;T&gt;()
+
+Instances of the State&lt;T&gt; class should be created using buildState&lt;T,Args...&gt;(). This special version of the builder exists because function templates in C++ cannot be partially specialized. If they could, the container version of build&lt;T&gt;() could be specialized to avoid the need for a separately named function. That said, buildState&lt;T,Args...&gt;() functions exactly like build&lt;T&gt;()
+
+### Author note
+Note: Ideally the default version of build would work for variadic template and function arguments, but at the specific function must be implemented.

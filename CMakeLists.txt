@@ -29,33 +29,75 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Author(s): Jay Jay Billings
+# Author(s): Jay Jay Billings, Alex McCaskey
 #----------------------------------------------------------------------------*/
 
-#Set the package name
-SET(PACKAGE_NAME "FireParsers")
-#Set the description
-SET(PACKAGE_DESCRIPTION "Fire Parser Library")
-#Set the library name
-SET(LIBRARY_NAME "FireParsers")
+# Set a name for this project.
+PROJECT ( FIRE C CXX )
 
 #Log that this project will be built
-MESSAGE(STATUS "----- Detected and building ${PACKAGE_NAME} -----")
+MESSAGE(STATUS "----- Configuring Main Fire Build -----")
 
-#Collect all header filenames in this project 
-#and glob them in HEADERS
-file(GLOB HEADERS *.h)
+# Set the minimum required version of cmake for this project.
+cmake_minimum_required(VERSION 2.8)
+# Configure some default options
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+message(STATUS "C++ version ${CXX_STANDARD} configured.")
 
-#Grab all of the source files
-file(GLOB SRC *.cpp)
+# Add the Modules directory to pick up extra *.cmake files.
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-#Add the source code to the library
-#add_library(${LIBRARY_NAME} STATIC ${SRC})
+# Include the testing framework
+include(tests)
+
+# Setup flag overrides if Fire is building on its own. This works by 
+# determining if a parent is available and allowing flag overrides if not.
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(NOT hasParent STREQUAL "")
+  message(STATUS "Parent directory is ${hasParent}")
+  list( APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} $ENV{CXX_FLAGS}")
+  message(STATUS "Parent detected. Disabling Fire flag overrides.")
+else()
+  message(STATUS "No parent directory found. Stand-alone build assumed. Build flag overrides enabled.")
+endif()
+
+# Setup Doxygen
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.cmake ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+  add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" 
+    VERBATIM)
+endif(DOXYGEN_FOUND)
+
+# Report if Spack is found and can be used for managing packages
+if(SPACK_ROOT)
+  message(STATUS "Spack found at ${SPACK_ROOT}.")
+endif(SPACK_ROOT)
+
+# Include directories for the main modules. Note that include 
+# directories must come before add subdirectory!
+include_directories("${CMAKE_SOURCE_DIR}/parsers")
+include_directories("${CMAKE_SOURCE_DIR}/solvers")
+include_directories("${CMAKE_SOURCE_DIR}/quadrature")
+include_directories("${CMAKE_SOURCE_DIR}/fem")
+include_directories("${CMAKE_SOURCE_DIR}/util")
+include_directories("${CMAKE_SOURCE_DIR}/astrophysics")
+include_directories("${CMAKE_SOURCE_DIR}/tpls/simpleini-4.17")
+
+# Add the main source directories
+add_subdirectory(parsers)
+add_subdirectory(integrators)
+add_subdirectory(solvers)
+add_subdirectory(quadrature)
+# Add the domain source directories
+add_subdirectory(astrophysics)
+add_subdirectory(fem)
+add_subdirectory(util)
+
+# Add the third party libraries
+ADD_SUBDIRECTORY(tpls)
     
-# Get the test files
-file(GLOB test_files tests/*Test.cpp)
-# Add the tests
-add_tests("${test_files}" "${CMAKE_CURRENT_SOURCE_DIR}" "")   
-
-#Install the Fire header files
-install(FILES ${HEADERS} DESTINATION include)
