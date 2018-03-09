@@ -106,7 +106,7 @@ As shown in the example, constructors and initializer lists should be used for *
 body of the constructor. In extreme cases it may be necessary to replace a constructor like
 
 ```cpp
-MyConstructor(int a, int b, int c,...) : myA(a), myB(b), myC(c), ... {};
+MyConstructor(int a, int b, int c,...) : myA(a), myB(b), myC, ... {};
 ```
 
 with something like

@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# Copyright (c) 2016-, UT-Battelle LLC
+# Copyright  2016-, UT-Battelle LLC
 # All rights reserved.
 #
 # Author Contact: Jay Jay Billings, jayjaybillings <at> gmail <dot> com

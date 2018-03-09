@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# Copyright (c) 2015-, UT-Battelle, LLC
+# Copyright 2015-, UT-Battelle, LLC
 # All rights reserved.
 #
 # Author Contact: Jay Jay Billings, jayjaybillings <at> gmail <dot> com
@@ -33,11 +33,11 @@
 #----------------------------------------------------------------------------*/
 
 #Set the package name
-SET(PACKAGE_NAME "FireParsers")
+SET(PACKAGE_NAME "Parsers")
 #Set the description
-SET(PACKAGE_DESCRIPTION "Fire Parser Library")
+SET(PACKAGE_DESCRIPTION "Parser Library")
 #Set the library name
-SET(LIBRARY_NAME "FireParsers")
+SET(LIBRARY_NAME "Parsers")
 
 #Log that this project will be built
 MESSAGE(STATUS "----- Detected and building ${PACKAGE_NAME} -----")
