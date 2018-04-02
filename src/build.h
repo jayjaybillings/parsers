@@ -86,13 +86,6 @@ T<K> build(Args&& ... args) {
 	return object;
 }
 
-template<template <class, typename ...> class T, typename K>
-LocalParser<T<K>> buildParser(const std::string & source) {
-	LocalParser<T<K>> parser;
-	parser.setSource(source);
-	return parser;
-}
-
 /**
  * This is a utility function used for splitting strings.
  * @param the strings to be split
