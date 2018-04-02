@@ -50,7 +50,7 @@ struct BlockGenerator {
 
 	// Constructor - Setup
 	BlockGenerator() {
-		BOOST_TEST_MESSAGE( "Configuring fixture." );
+		BOOST_TEST_MESSAGE("Configuring fixture.");
 
 		// Open the file and write some blocks to it
 		fstream testFile;
@@ -65,7 +65,7 @@ struct BlockGenerator {
 		testFile << "prop5=value5\n";
 		testFile.close();
 
-		BOOST_TEST_MESSAGE( "Fixture configured." );
+		BOOST_TEST_MESSAGE("Fixture configured.");
 
 		return;
 	}
@@ -82,7 +82,9 @@ struct BlockGenerator {
 BOOST_FIXTURE_TEST_CASE(checkBlocks, BlockGenerator) {
 
 	// Configure the parser
-    INIPropertyParser parser = build<INIPropertyParser,const string &>(testFileName);
+	INIPropertyParser parser;
+	parser.setSource(testFileName);
+	parser.parse();
 
 	// Get the block names and check them
 	auto names = parser.getPropertyBlockNames();

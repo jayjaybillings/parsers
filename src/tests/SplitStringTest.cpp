@@ -33,7 +33,7 @@
 #define BOOST_TEST_MODULE Parsers
 
 #include <boost/test/included/unit_test.hpp>
-#include <build.h>
+#include <StringUtils.h>
 #include <vector>
 
 using namespace std;

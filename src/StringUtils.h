@@ -29,42 +29,16 @@
 
  Author(s): Jay Jay Billings (jayjaybillings <at> gmail <dot> com)
  -----------------------------------------------------------------------------*/
-#ifndef PARSERS_BUILD_H_
-#define PARSERS_BUILD_H_
+#ifndef PARSERS_STRINGUTILS_H_
+#define PARSERS_STRINGUTILS_H_
 
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <utility>
-#include <LocalParser.h>
 #include <string>
 
 namespace fire {
-
-/**
- * The build<>() template function defines the basic construction mechanism for
- * objects in Fire. It is an implementation of a dynamic builder pattern that
- * does not require a singleton for construction or registration with a
- * singleton to provide such a construction service.
- *
- * Build function specializations should always be provided for domain classes
- * used in Fire to insure clean construction.
- *
- * Those concerned about the performance of calling build<>() should know that
- * it performs very well because of C++11's move semantics and return value
- * optimizations provided by the compiler. It may perform slowly when used in
- * debug mode with gcc since these optimizations may be disabled.
- *
- * @param optional list of arguments for classes that do not use
- * nullary/default constructors and have either more than one or a variadic
- * number of arguments
- * @return an instance of class T.
- */
-template<typename T, typename... Args>
-T build(Args&& ... args) {
-	T object(std::forward<Args>(args)...);
-	return object;
-}
 
 /**
  * This is a utility function used for splitting strings.
@@ -99,4 +73,4 @@ inline std::vector<std::string> splitString(const std::string & line) {
 
 } /* namespace fire */
 
-#endif /* PARSERS_BUILD_H_ */
+#endif /* PARSERS_STRINGUTILS_H_ */

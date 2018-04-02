@@ -35,7 +35,6 @@
 
 #include <IPropertyParser.h>
 #include <string>
-#include <build.h>
 #include <SimpleIni.h>
 #include <iostream>
 #include <vector>
@@ -136,21 +135,6 @@ public:
 		return blockMap[name.c_str()];
 	};
 };
-
-/**
- * This is a builder for constructing INIPropertyParsers from a string. It
- * constructs, initializes, and parses the properties. Property files are
- * expected to be relatively small, so any copying on return is acceptable.
- * @param The filename that should be parsed for the properties.
- * @return the fully initialized property parser.
- */
-template<>
-INIPropertyParser build(const std::string & source) {
-	INIPropertyParser parser;
-	parser.setSource(source);
-	parser.parse();
-	return parser;
-}
 
 } /* namespace fire */
 
