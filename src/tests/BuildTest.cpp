@@ -92,13 +92,3 @@ BOOST_AUTO_TEST_CASE(checkVariadicBuild) {
 	return;
 }
 
-/**
- * This operation checks  the container verison of build<>().
- */
-BOOST_AUTO_TEST_CASE(checkContainerBuild) {
-
-	vector<TestStruct> testContainer = build<vector,TestStruct>(8);
-	BOOST_REQUIRE_EQUAL(8,testContainer.size());
-
-	return;
-}

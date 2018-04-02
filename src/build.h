@@ -67,26 +67,6 @@ T build(Args&& ... args) {
 }
 
 /**
- * An implementation of the build template for containers. This builder will
- * construct a container of type T<K> and optionally pass the arguments Args
- * to the constructor of that container.
- *
- * Clients that need the same type of functionality for their own container,
- * but with arguments passed to a single class that is wrapped by the container
- * should explicitly specialize build<>() on their own. (See solvers/State.h
- * for an example.)
- *
- * @param optional list of arguments that are passed to the container's
- * constructor.
- * @return an instance of the container class T<K>.
- */
-template<template <class, typename...> class T, typename K, typename... Args>
-T<K> build(Args&& ... args) {
-	T<K> object(std::forward<Args>(args)...);
-	return object;
-}
-
-/**
  * This is a utility function used for splitting strings.
  * @param the strings to be split
  * @param a delimiter that marks where tokens should be split.
