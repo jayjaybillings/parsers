@@ -28,7 +28,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- Author(s): Jay Jay Billings (jayjaybillings <at> gmail <dot> com)
+ Author(s): Jay Jay Billings (billingsjj <at> ornl <dot> gov)
  -----------------------------------------------------------------------------*/
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Parsers

@@ -80,4 +80,4 @@ acheived by setting -DCMAKE_BUILD_TYPE=RelWithDebugInfo.
 See the LICENSE file licensing and copyright information. In short, 3-clause BSD.
 
 ## Questions
-Questions can be directed to me at jayjaybillings <at> gmail <dot> com.
+Questions can be directed to me at billingsjj <at> ornl <dot> gov.
