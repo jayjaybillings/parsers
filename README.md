@@ -35,32 +35,19 @@ From a shell, execute the following commands to compile the code:
 
 
 ```bash
-git clone https://github.com/jayjaybillings/fire
-mkdir fire-build
-cd fire-build
-cmake ../fire -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
+git clone https://github.com/jayjaybillings/parsers
+mkdir parsers-build
+cd parsers-build
+cmake ../parsers-build -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
 make
 ```
 
-If you would like to use MAGMA for solvers, you need to modify the cmake
-argument with the path to the MAGMA installation. Your configuration
-statement should look like the following:
-
-```bash
-cmake ../fire -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5 -DMAGMA_ROOT=/usr/local/lib
-```
-Fire also supports CVODE, which can be used by either passing -DSUNDIALS_ROOT or pointing to Spack:
-
-```bash
-cmake ../fire -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5 -DMAGMA_ROOT=/usr/local/lib -DSPACK_ROOT=$HOME/spack
-```
-
-
-The above will get the code running, but it will not run the tests or generate the 
-documentation. Issue the following commands to do that:
+The commands above will get the code running, but it will not run the tests, generate the 
+documentation, or install the libraries. Issue the following commands to do that:
 ```bash
 make test
 make doc
+make install
 ```
 
 
@@ -68,7 +55,7 @@ Build flags, such as -Wall, can be set by prepending the CXX_FLAGS variable to
 the cmake command as such
 
 ```bash
-CXX_FLAGS='-Wall' cmake ../fire -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
+CXX_FLAGS='-Wall' cmake ../parsers -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
 ```
 
 Optimization flags should be handled by setting -DCMAKE_BUILD_TYPE=Release 
