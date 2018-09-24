@@ -1,23 +1,11 @@
-# Fire Framework
+# Parsers
 
-Fire is a framework for modeling and simulation. It includes various reusable tools 
-and utilities for solving computational physics problems. This includes
-* parsers
-* steppers
-* solvers
-* a finite element library
-
-It also includes domain-specific classes and tools for
-* kinetic rate theory calculations in nuclear astrophysics
-* heat conduction and diffusion
-* sintering
-* welding
+Parsers is a simple set of file parsing utilities for scientific libraries.
 
 ## Documentation
 
-Documentation in Fire is generated via Doxygen by running "make doc" during the 
-build. The documentation is viewable [online](http://www.jayjaybillings.com/fire). The
-full API documentation is available at [the API reference page](http://www.jayjaybillings.com/fire/api/html/). 
+Documentation in Parsers is generated via Doxygen by running "make doc" during the 
+build. 
 
 You can run "make doc" from build directory to generate the API documentation. Doxygen handles most of the required documentation without developer 
 intervention. This means that in some cases there may be classes that seem to 
@@ -27,7 +15,7 @@ by Doxygen. Most IDEs will also auto-generate descriptions for developers too,
 so the author(s) see no need to cover every piece of code with comments.
 
 ## Prerequisites
-You will need git and cmake to build Fire.
+You will need git and cmake to build Parsers.
 
 ## Checkout and build
 
