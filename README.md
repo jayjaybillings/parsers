@@ -26,7 +26,7 @@ From a shell, execute the following commands to compile the code:
 git clone https://github.com/jayjaybillings/parsers
 mkdir parsers-build
 cd parsers-build
-cmake ../parsers-build -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
+cmake ../parsers -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_VERSION=4.5
 make
 ```
 
